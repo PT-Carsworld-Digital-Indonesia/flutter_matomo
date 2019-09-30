@@ -17,5 +17,5 @@ Matomo tracking for flutter
   s.dependency 'Flutter'
   s.dependency 'MatomoTracker', '> 7'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '12.0'
 end
