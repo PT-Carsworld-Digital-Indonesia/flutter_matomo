@@ -34,7 +34,7 @@ class FlutterMatomoPlugin(val activity: Activity, val channel: MethodChannel) : 
                     if (tracker == null) {
                         tracker = TrackerBuilder.createDefault(url, siteId ?: 1).build(matomo)
                     }
-                    tracker.setUserId(userId)
+                    if(userId!=null) tracker?.setUserId(userId)
                     result.success("Matomo:: $url initialized successfully.")
                 } catch (e: Exception) {
                     result.success("Matomo:: $url failed with this error: ${e.printStackTrace()}")
