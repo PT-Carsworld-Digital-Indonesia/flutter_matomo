@@ -32,7 +32,7 @@ class FlutterMatomoPlugin(val activity: Activity, val channel: MethodChannel) : 
                 try {
                     val matomo: Matomo = Matomo.getInstance(activity.applicationContext)
                     if (tracker == null) {
-                        tracker = new TrackerBuilder.createDefault(url, siteId ?: 1).build(matomo)
+                        tracker = TrackerBuilder.createDefault(url, siteId ?: 1).build(matomo)
                     }
                     tracker.setTrackerName(userId)
                     result.success("Matomo:: $url initialized successfully.")
