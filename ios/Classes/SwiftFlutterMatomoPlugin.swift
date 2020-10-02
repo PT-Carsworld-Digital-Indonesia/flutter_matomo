@@ -39,6 +39,7 @@ public class SwiftFlutterMatomoPlugin: NSObject, FlutterPlugin {
     if(call.method.elementsEqual("trackScreen")){
         let arguments = call.arguments as? NSDictionary
         let widgetName = arguments?["widgetName"] as? String
+        let eventName = arguments?["eventName"] as? String
         matomoTracker?.track(view:[widgetName ?? ""])
         matomoTracker?.dispatch()
         result("Matomo:: trackScreen screen \(widgetName) sent")
