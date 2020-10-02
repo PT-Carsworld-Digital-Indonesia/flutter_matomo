@@ -28,11 +28,13 @@ class FlutterMatomoPlugin(val activity: Activity, val channel: MethodChannel) : 
             "initializeTracker" -> {
                 val url = call.argument<String>("url")
                 val siteId = call.argument<Int>("siteId")
+                val userId = call.argument<String>("userId")
                 try {
                     val matomo: Matomo = Matomo.getInstance(activity.applicationContext)
                     if (tracker == null) {
-                        tracker = TrackerBuilder.createDefault(url, siteId ?: 1).build(matomo)
+                        tracker = new TrackerBuilder.createDefault(url, siteId ?: 1).build(matomo)
                     }
+                    tracker.setTrackerName(userId)
                     result.success("Matomo:: $url initialized successfully.")
                 } catch (e: Exception) {
                     result.success("Matomo:: $url failed with this error: ${e.printStackTrace()}")

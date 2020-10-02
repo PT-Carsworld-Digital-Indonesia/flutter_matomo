@@ -18,8 +18,11 @@ public class SwiftFlutterMatomoPlugin: NSObject, FlutterPlugin {
         let arguments = call.arguments as? NSDictionary
         let url = arguments?["url"] as? String
         let siteId = arguments?["siteId"] as? Int
+        let userId = arguments?["userId"] as? String
+
 //      if(matomoTracker == nil){
         matomoTracker = MatomoTracker(siteId: String(siteId!), baseURL: URL(string: url ?? "")!)
+        matomoTracker?.userId = userId
         matomoTracker?.logger = DefaultLogger(minLevel: .verbose)
 //      }
         result("Matomo:: \(url) initialized successfully.")
