@@ -72,7 +72,7 @@ class FlutterMatomoPlugin(val activity: Activity, val channel: MethodChannel) : 
             "setUserID" -> {
                 try {
                     val userID = call.argument<String>("userID")
-                    Matomo.getInstance(activity.applicationContext).setUserId(userID)
+                    tracker?.setUserId(userID)
                     result.success("Matomo:: userID sent to ${tracker?.apiUrl}")
                 } catch (e: Exception) {
                     result.success("Matomo:: Failed to track event, did you call initializeTracker ?")
