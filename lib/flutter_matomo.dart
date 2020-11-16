@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 class FlutterMatomo {
   static const MethodChannel _channel = const MethodChannel('flutter_matomo');
 
-  static Future<String> initializeTracker(String url, int siteId, String userName) async {
+  static Future<String> initializeTracker(String url, int siteId) async {
     Map<String, dynamic> args = {};
     args.putIfAbsent('url', () => url);
     args.putIfAbsent('siteId', () => siteId);
