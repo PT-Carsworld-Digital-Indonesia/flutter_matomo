@@ -43,14 +43,12 @@ public class SwiftFlutterMatomoPlugin: NSObject, FlutterPlugin {
         result("Matomo:: trackScreen screen \(widgetName) sent")
     }
     if(call.method.elementsEqual("trackDownload")){
-        matomoTracker?.trackDownload()
-        matomoTracker?.dispatch()
         result("Matomo:: trackDownload initialized successfully.")
     }
     if(call.method.elementsEqual("setUserID")){
         let arguments = call.arguments as? NSDictionary
         let userID = arguments?["userID"] as? String
-        matomoTracker?.setUserID(userID)
+        matomoTracker?.userId = userID
         matomoTracker?.dispatch()
         result("Matomo:: setUserID initialized successfully.")
     }
