@@ -4,9 +4,9 @@ import MatomoTracker
 
 
 public class SwiftFlutterMatomoPlugin: NSObject, FlutterPlugin {
-  
+
   var matomoTracker: MatomoTracker? = nil
-    
+
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "flutter_matomo", binaryMessenger: registrar.messenger())
     let instance = SwiftFlutterMatomoPlugin()
@@ -18,13 +18,11 @@ public class SwiftFlutterMatomoPlugin: NSObject, FlutterPlugin {
         let arguments = call.arguments as? NSDictionary
         let url = arguments?["url"] as? String
         let siteId = arguments?["siteId"] as? Int
-        let userId = arguments?["userId"] as? String
 
-//      if(matomoTracker == nil){
-        matomoTracker = MatomoTracker(siteId: String(siteId!), baseURL: URL(string: url ?? "")!)
-        matomoTracker?.userId = userId
+        if(matomoTracker == nil){
+            matomoTracker = MatomoTracker(siteId: String(siteId!), baseURL: URL(string: url ?? "")!)
+        }
         matomoTracker?.logger = DefaultLogger(minLevel: .verbose)
-//      }
         result("Matomo:: \(url) initialized successfully.")
     }
     if(call.method.elementsEqual("trackEvent")){
@@ -45,7 +43,19 @@ public class SwiftFlutterMatomoPlugin: NSObject, FlutterPlugin {
         result("Matomo:: trackScreen screen \(widgetName) sent")
     }
     if(call.method.elementsEqual("trackDownload")){
+        matomoTracker?.trackDownload()
+        matomoTracker?.dispatch()
         result("Matomo:: trackDownload initialized successfully.")
+    }
+    if(call.method.elementsEqual("setUserID")){
+        let arguments = call.arguments as? NSDictionary
+        let userID = arguments?["userID"] as? String
+        matomoTracker?.setUserID(userID)
+        matomoTracker?.dispatch()
+        result("Matomo:: setUserID initialized successfully.")
+    }
+    if(call.method.elementsEqual("trackScreen")){
+        result("Matomo:: trackScreen initialized successfully.")
     }
     if(call.method.elementsEqual("trackGoals")){
         result("Matomo:: trackGoals initialized successfully.")

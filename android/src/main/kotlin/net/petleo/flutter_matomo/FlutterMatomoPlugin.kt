@@ -28,13 +28,11 @@ class FlutterMatomoPlugin(val activity: Activity, val channel: MethodChannel) : 
             "initializeTracker" -> {
                 val url = call.argument<String>("url")
                 val siteId = call.argument<Int>("siteId")
-                val userId = call.argument<String>("userId")
                 try {
                     val matomo: Matomo = Matomo.getInstance(activity.applicationContext)
                     if (tracker == null) {
                         tracker = TrackerBuilder.createDefault(url, siteId ?: 1).build(matomo)
                     }
-                    if(userId!=null) tracker?.setUserId(userId)
                     result.success("Matomo:: $url initialized successfully.")
                 } catch (e: Exception) {
                     result.success("Matomo:: $url failed with this error: ${e.printStackTrace()}")
@@ -67,6 +65,15 @@ class FlutterMatomoPlugin(val activity: Activity, val channel: MethodChannel) : 
                 try {
                     TrackHelper.track().download().with(tracker)
                     result.success("Matomo:: Download sent to ${tracker?.apiUrl}")
+                } catch (e: Exception) {
+                    result.success("Matomo:: Failed to track event, did you call initializeTracker ?")
+                }
+            }
+            "setUserID" -> {
+                try {
+                    val userID = call.argument<String>("userID")
+                    TrackHelper.track().setUserId(userID)
+                    result.success("Matomo:: userID sent to ${tracker?.apiUrl}")
                 } catch (e: Exception) {
                     result.success("Matomo:: Failed to track event, did you call initializeTracker ?")
                 }

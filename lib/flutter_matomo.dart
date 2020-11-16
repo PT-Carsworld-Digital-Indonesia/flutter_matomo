@@ -10,8 +10,7 @@ class FlutterMatomo {
   static Future<String> initializeTracker(String url, int siteId, String userName) async {
     Map<String, dynamic> args = {};
     args.putIfAbsent('url', () => url);
-    args.putIfAbsent('siteId', () => siteId);    
-    args.putIfAbsent('userId', () => userName);
+    args.putIfAbsent('siteId', () => siteId);
 
     final String version = await _channel.invokeMethod('initializeTracker', args);
     return version;
@@ -60,6 +59,13 @@ class FlutterMatomo {
 
   static Future<String> trackDownload() async {
     final String version = await _channel.invokeMethod('trackDownload');
+    return version;
+  }
+
+  static Future<String> setUserID(String userID) async {
+    Map<String, dynamic> args = {};
+    args.putIfAbsent('userID', () => userID);
+    final String version = await _channel.invokeMethod('setUserID',args);
     return version;
   }
 
